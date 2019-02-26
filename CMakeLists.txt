@@ -75,6 +75,8 @@ set(ACEDD_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(ACEDD_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(ACEDD_LIBNAME ACEDD)
 set(ACEDD_APP ACEDD_APP)
+set(ACEDD_EXTRACT ACEDD_EXTRACT)
+set(ACEDD_C_LIBNAME ACEDD_c)
 
 
 include_directories(
@@ -104,7 +106,19 @@ set(ACEDD_APP_SOURCES
     ${PROJECT_SOURCE_DIR}/apps/acedd_app.cpp
 )
 
+set(ACEDD_EXTRACT_SOURCES
+    ${PROJECT_SOURCE_DIR}/apps/acedd_extract.cpp
+)
+
+
 add_library(${ACEDD_LIBNAME} ${LIBRARY_TYPE} ${ACEDD_HEADERS} ${ACEDD_SOURCES})
 target_link_libraries(${ACEDD_LIBNAME} ${OpenCV_LIBS})
 add_executable(${ACEDD_APP} ${ACEDD_APP_SOURCES})
+add_executable(${ACEDD_EXTRACT} ${ACEDD_EXTRACT_SOURCES})
 target_link_libraries(${ACEDD_APP} ACEDD ${OpenCV_LIBS})
+target_link_libraries(${ACEDD_EXTRACT} ACEDD ${OpenCV_LIBS})
+
+# C library
+add_library(${ACEDD_C_LIBNAME} SHARED c_api/acedd_c.cpp c_api/acedd_c.h ${ACEDD_HEADERS} ${ACEDD_SOURCES})
+target_link_libraries(${ACEDD_C_LIBNAME} ${OpenCV_LIBS})
+set_target_properties(${ACEDD_C_LIBNAME} PROPERTIES PUBLIC_HEADER c_api/acedd_c.h)
