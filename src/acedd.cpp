@@ -192,7 +192,7 @@ namespace ACEDD_DESC{
 		rgb.at<cv::Vec3f>(0)[1] = aG;
 		rgb.at<cv::Vec3f>(0)[2] = aR;
 		cv::Mat hsvM;
-		cv::cvtColor(rgb, hsvM, CV_RGB2HSV);
+		cv::cvtColor(rgb, hsvM, cv::COLOR_RGB2HSV);
 		hsv[0] = hsvM.at<cv::Vec3f>(0)[0];
 		hsv[1] = hsvM.at<cv::Vec3f>(0)[1];
 		hsv[2] = hsvM.at<cv::Vec3f>(0)[2];
