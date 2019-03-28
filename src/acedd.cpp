@@ -6,11 +6,11 @@
 #include "fuzzy_24bin.h"
 #include "acedd_quant.h"
 
-#define HIST10BIN_LENGTH 10
-#define HIST24BIN_LENGTH 24
-#define DESC_LENGTH 144
-#define EDGEHIST_LENGTH 6
-#define SQRT2 std::sqrt((double)2)
+const unsigned int HIST10BIN_LENGTH = 10;
+const unsigned int HIST24BIN_LENGTH = 24;
+const unsigned int DESC_LENGTH = 144;
+const unsigned int EDGEHIST_LENGTH = 6;
+const double SQRT2 = std::sqrt(2.);
 
 namespace ACEDD_DESC{
 	void processSubBlock(cv::Scalar &acc, int xs, int xe, int ys, int ye, const cv::Mat *img);
@@ -43,8 +43,8 @@ namespace ACEDD_DESC{
 
 		void operator()(const cv::Range &range) const {
 			for(int i = range.start; i != range.end; ++i){
-				double *hist24bin = new double[HIST24BIN_LENGTH];
-				int* edgeEncoding = new int[EDGEHIST_LENGTH];
+				double hist24bin[HIST24BIN_LENGTH];
+				int edgeEncoding[EDGEHIST_LENGTH];
 				processBlock(hist24bin, edgeEncoding, pImg,
 					pCoordinates->at<int>(i,0), pCoordinates->at<int>(i,1), 
 					pCoordinates->at<int>(i,2), pCoordinates->at<int>(i,3));
@@ -55,8 +55,6 @@ namespace ACEDD_DESC{
 				for(int j = 0; j < EDGEHIST_LENGTH; j++){
 					pEdges->at<int>(i,j) = edgeEncoding[j];
 				}
-				delete[] hist24bin;
-				delete[] edgeEncoding;
 			}
 		}
 
@@ -107,9 +105,6 @@ namespace ACEDD_DESC{
 			while( edges.at<int>(blockId,i) >= 0 && ( i < edges.cols ) ){
 				for(int j = 0; j < HIST24BIN_LENGTH; ++j){
 					int index = HIST24BIN_LENGTH * (edges.at<int>(blockId,i)) + j;
-					/*std::cout << "Block id " << blockId 
-					<< " i " << i << " j " << j << " edges " << edges.at<int>(blockId,i) 
-					<< " index " << index << " hist " << hists.at<float>(blockId,j) << "\n";*/
 					descFull.at<double>(index) += hists.at<double>(blockId,j);
 				}
 				i++;
@@ -131,16 +126,14 @@ namespace ACEDD_DESC{
 		processSubBlock(subblock2, xs, xm, ym, ye, img);
 		processSubBlock(subblock3, xm, xe, ym, ye, img);
 		cv::Scalar intensities = cv::Scalar(subblock0[3], subblock1[3], subblock2[3], subblock3[3]);
-		double* textureMasks = new double[6];
+		double textureMasks[6];
 		getTextureMasks(intensities, textureMasks);
 		calculateHSVperBlock(subblock0, subblock1, subblock2, subblock3, hsv);
 		getEdgeEncoding(textureMasks, edgeEncoding);
-		double* hist10bin = new double[HIST10BIN_LENGTH];
+		double hist10bin[HIST10BIN_LENGTH];
 		double hsvArr[] = {hsv[0], hsv[1], hsv[2]};
 		Fuzzy10BIN::ApplyFilter(hsvArr, hist10bin);
 		Fuzzy24BIN::ApplyFitler(hsvArr, hist10bin, hist24bin);
-		delete[] hist10bin;
-		delete[] textureMasks;
 	}
 
 	void processSubBlock(cv::Scalar &acc, const int xs, const int xe, const int ys, const int ye, const cv::Mat *img)

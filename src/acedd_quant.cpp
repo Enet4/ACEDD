@@ -39,7 +39,6 @@ namespace ACEDD_DESC {
 	{
 		float max = 1;
 		result.create(desc.rows,1,CV_8U);
-		//byte[] result = new byte[descHist.length];
 
 		for(size_t i = 0; i < 24; ++i){
 			max = 1;

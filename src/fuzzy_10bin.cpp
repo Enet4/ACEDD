@@ -39,9 +39,9 @@ const int BinRulesDefinition[][4] = {
 	
  void Fuzzy10BIN::ApplyFilter(const double hsv[], double hist10bin[] )
  {
-	 double* HueActivation = new double[8];
-	 double* SaturationActivation = new double[2];
-	 double* ValueActivation = new double[3];
+	 double HueActivation[8];
+	 double SaturationActivation[2];
+	 double ValueActivation[3];
 	 findMembershipValue(hsv[0], 32, HueThresholdValues, HueActivation);
 	 findMembershipValue(hsv[1], 8, SaturationThresholdValues, SaturationActivation);
 	 findMembershipValue(hsv[2], 12, ValueThresholdValues, ValueActivation);
@@ -49,22 +49,6 @@ const int BinRulesDefinition[][4] = {
 		 hist10bin[i] = 0;
 	 }
 	 MultiParticipateDefazzificator(HueActivation, SaturationActivation, ValueActivation, hist10bin);
-	 delete[] HueActivation;
-	 delete[] SaturationActivation;
-	 delete[] ValueActivation;/*
-	 std::cout << "HSV input " << hsv[0] << " " << hsv[1] << " " << hsv[2] << "\n";
-	 std::cout << "hist " << 
-		 hist10bin[0] << " " <<
-		 hist10bin[1] << " " <<
-		 hist10bin[2] << " " <<
-		 hist10bin[3] << " " <<
-		 hist10bin[4] << " " <<
-		 hist10bin[5] << " " <<
-		 hist10bin[6] << " " <<
-		 hist10bin[7] << " " <<
-		 hist10bin[8] << " " <<
-		 hist10bin[9] << "\n";*/
-
  }
 	
  void Fuzzy10BIN::findMembershipValue(double in, int tSize, const double thresholds[], double actArr[])

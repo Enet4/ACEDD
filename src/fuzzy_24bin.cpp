@@ -25,23 +25,11 @@ const int BinRules[][3] = {
 
 void Fuzzy24BIN::ApplyFitler(const double hsv[], const double fuzzy10BinHist[], double fuzzy24BinHist[])
 {
-	double* sActivation = new double[2];
-	double* vActivation = new double[2];
+	double sActivation[2];
+	double vActivation[2];
 	findMembershipValue(hsv[1], 8, SaturationThresholds, sActivation);
 	findMembershipValue(hsv[2], 8, ValueThresholds, vActivation);
 	computeHistogram(fuzzy10BinHist, sActivation, vActivation, fuzzy24BinHist);
-	delete[] sActivation;
-	delete[] vActivation;/*
-	std::cout << "HSV " << hsv[0] << " " << hsv[1] << " " << hsv[2] << "\n";
-	std::cout << "hist10 ";
-	for(int i = 0; i != 10; ++i){
-		std::cout << fuzzy10BinHist[i] << " ";
-	}
-	std::cout << "\nhist24 ";
-	for(int i = 0; i != 24; ++i){
-		std::cout << fuzzy24BinHist[i] << " ";
-	}
-	std::cout << "\n";*/
 }
 	
 void Fuzzy24BIN::computeHistogram(const double hist10bin[], const double sA[], const double vA[], double hist24bin[])
