@@ -3,6 +3,8 @@
 #include <opencv2/core/core.hpp>
 
 namespace ACEDD_DESC{
+	extern const unsigned int DESC_LENGTH;
+
 	class CEDD
 	{
 	public:

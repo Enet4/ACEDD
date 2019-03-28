@@ -2,6 +2,9 @@
 extern "C" {
 #endif
 
+/// CEDD descriptor length (number of bins in total)
+#define ACEDD_DESC_LENGTH 144
+
 /** Extract the CEDD descriptor from an image in a file.
  * 
  * CEDD grid size defaults to 40.

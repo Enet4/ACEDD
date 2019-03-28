@@ -13,6 +13,8 @@ const unsigned int EDGEHIST_LENGTH = 6;
 const double SQRT2 = std::sqrt(2.);
 
 namespace ACEDD_DESC{
+	const unsigned int DESC_LENGTH = ::DESC_LENGTH;
+
 	void processSubBlock(cv::Scalar &acc, int xs, int xe, int ys, int ye, const cv::Mat *img);
 	void getTextureMasks(const cv::Scalar &intensities, double masks[]);
 	void calculateHSVperBlock(const cv::Scalar& sb0, const cv::Scalar& sb1, const cv::Scalar& sb2, const cv::Scalar& sb3, cv::Scalar& hsv);

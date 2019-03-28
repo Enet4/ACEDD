@@ -19,9 +19,9 @@ extern "C" int acedd_extract_with_grid_size(const char* filename, unsigned char*
         cedd.Apply(img_a, desc_a);
 
         if (desc_a.isContinuous()) {
-            std::memcpy(desc, desc_a.ptr(), 128);
+            std::memcpy(desc, desc_a.ptr(), DESC_LENGTH);
         } else {
-            for (auto i = 0u; i < 128; i++) {
+            for (auto i = 0u; i < DESC_LENGTH; i++) {
                 desc[i] = desc_a.at<unsigned char>(i);
             }
         }
